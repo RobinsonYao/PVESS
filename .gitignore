@@ -1,0 +1,17 @@
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+output/
+logs/
+
+.DS_Store
+
+.idea/
+.vscode/
+
+*.xlsx
+*.pdf
+
