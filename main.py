@@ -33,3 +33,5 @@ weather.get_day_data(
 weather.plot_day_ghi(
     "2020-06-21"
 )
+weather.get_typical_day([3,4,5])
+                        

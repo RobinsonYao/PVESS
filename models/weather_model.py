@@ -336,3 +336,57 @@ class WeatherModel:
         plt.tight_layout()
 
         plt.show()
+# ==========================================
+# 获取指定月份范围内的典型日
+# month_list 例如：[3,4,5]
+# ==========================================
+    def get_typical_day(self, month_list):
+
+        # 提取对应月份的数据
+        # 先计算全部日期的日辐照量
+        daily_ghi = (
+            self.df["GHI"]
+            .resample("D")
+            .sum()
+            * 10
+            / 60
+            / 1000
+        )
+
+        # 再筛选指定月份
+        daily_ghi = daily_ghi[
+            daily_ghi.index.month.isin(month_list)
+        ]
+
+        # 计算这些天的平均日辐照量
+        print("非零天数：", (daily_ghi > 0).sum())
+        print("\n前10天日辐照量：")
+        print(daily_ghi.head(10)) 
+        print("\ndaily_ghi统计信息：")
+
+        print("天数：", len(daily_ghi))
+
+        print("最大值：", daily_ghi.max())
+
+        print("最小值：", daily_ghi.min())
+
+        print("平均值：", daily_ghi.mean())  
+        average_ghi = daily_ghi.mean()
+
+        # 找出最接近平均值的日期
+        typical_date = (
+            abs(daily_ghi - average_ghi)
+        ).idxmin()
+
+        print("\n========== 典型日 ==========")
+
+        print("\n月份：")
+        print(month_list)
+
+        print("\n平均日辐照量：")
+        print(round(average_ghi,2),"kWh/m²")
+
+        print("\n典型日：")
+        print(typical_date.date())
+
+        return typical_date
