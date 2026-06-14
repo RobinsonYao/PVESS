@@ -359,18 +359,6 @@ class WeatherModel:
         ]
 
         # 计算这些天的平均日辐照量
-        print("非零天数：", (daily_ghi > 0).sum())
-        print("\n前10天日辐照量：")
-        print(daily_ghi.head(10)) 
-        print("\ndaily_ghi统计信息：")
-
-        print("天数：", len(daily_ghi))
-
-        print("最大值：", daily_ghi.max())
-
-        print("最小值：", daily_ghi.min())
-
-        print("平均值：", daily_ghi.mean())  
         average_ghi = daily_ghi.mean()
 
         # 找出最接近平均值的日期
