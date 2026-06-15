@@ -470,3 +470,40 @@ Result
 EMSModel V0.2
 
 峰谷套利策略。
+
+
+# V1.1-alpha
+
+重要架构变化：
+
+决策层与执行层完成分离。
+
+形成：
+
+EMS
+
+↓
+
+Battery
+
+↓
+
+Result
+
+三层结构。
+
+---
+
+重要方向调整：
+
+项目主线由：
+
+建立仿真模型
+
+转向：
+
+储能系统定型（Sizing）。
+
+SizingModel 被定义为未来系统的顶层模块。
+
+EMSModel、BatteryModel、EconomicModel、LifeModel 等模块，均服务于 SizingModel。

@@ -379,3 +379,30 @@ Git 是项目的时间机器。
 优先保持系统稳定。
 
 优先形成能够跨对话继承的 Project Memory。
+
+
+## 项目长期目标
+
+PVESS 不仅是一个光储仿真工具。
+
+项目最终目标是：
+
+根据真实气象、负荷、光伏和运行策略，
+
+自动确定：
+
+* 储能功率（kW）
+* 储能容量（kWh）
+
+并进一步完成：
+
+* 经济性分析
+* 寿命分析
+* 方案推荐
+* 自动报告生成
+
+因此：
+
+SizingModel 是整个系统未来最核心的模块。
+
+EMSModel、BatteryModel、EconomicModel、LifeModel 等模块，本质上都是为 SizingModel 服务的基础能力。

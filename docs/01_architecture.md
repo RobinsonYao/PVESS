@@ -9,49 +9,48 @@
 ```text
 PVESS/
 
-├── main.py
-│
-├── models/
-│     weather_model.py
-│     pv_model.py
-│     load_model.py
-│     battery_model.py
-│     result_model.py
-│     ems_model.py（文件已建立，尚未实现）
-│
-├── data/
-│
-├── charts/
-│
-├── output/
-│
-├── logs/
-│
-├── config/
-│
-├── controllers/
-│
-├── projects/
-│
-├── resources/
-│
-├── ui/
-│
-├── docs/
-│
-└── requirements.txt
+Weather
+↓
+
+PV
+
+↓
+
+Load
+
+↓
+
+SizingModel
+
+├── EMSModel
+
+├── BatteryModel
+
+├── EconomicModel
+
+├── LifeModel
+
+└── ReportModel
+
+↓
+
+Recommendation
+
+↓
+
+Report
+
 ```
 
-目录已经预留扩展空间。
+SizingModel 是顶层调度器。
 
-当前主要开发集中在：
+EMSModel 是策略模块。
 
-```text
-main.py
+BatteryModel 是执行模块。
 
-models/
+EconomicModel 是评价模块。
 
-docs/
+LifeModel 是寿命模块。
 ```
 
 ---

@@ -2,7 +2,7 @@
 
 ## 当前版本
 
-PVESS V1.0-alpha
+V1.1-alpha
 
 ---
 
@@ -204,10 +204,24 @@ PNG
 
 ## 当前阶段
 
-V1.0 基础框架阶段
+V1.1-alpha
 
-系统闭环已经完成。
+基础仿真内核已经完成。
+
+WeatherModel      Freeze
+
+PVModel           Stable
+
+LoadModel         Stable
+
+EMSModel          Stable
+
+BatteryModel      Freeze
+
+ResultModel       Freeze
 
 下一阶段：
 
-EMSModel V0.1
+V1.2 Storage Sizing
+
+
