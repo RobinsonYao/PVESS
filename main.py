@@ -1,6 +1,13 @@
 from models.weather_model import WeatherModel
+from models.pv_model import PVModel
+from models.load_model import LoadModel
 from models.battery_model import BatteryModel
+from models.result_model import ResultModel
 
+
+# ======================================
+# Weather
+# ======================================
 
 weather_path = (
     "/Users/yaozhenhua/Documents/"
@@ -9,63 +16,42 @@ weather_path = (
     "City/an_hui_an_qing.csv"
 )
 
-# 创建对象
 weather = WeatherModel()
 
-# 读取数据
 weather.load(weather_path)
+
 weather.build_daily_data()
 
-# 显示数据基本信息
-weather.show_info()
-
-# 年辐照量
-weather.calculate_year_ghi()
-
-# 月辐照量
-weather.calculate_month_ghi()
-# 月平均温度
-weather.calculate_month_temperature()
-# 月平均风速
-weather.calculate_month_wind_speed()
-
-weather.plot_day_ghi(
-    "2020-06-21"
-)
-weather.get_typical_day([3,4,5])
-
-from models.result_model import ResultModel
-
-
-result = ResultModel()
-
-result.show_info()
-
-from models.pv_model import PVModel
-pv = PVModel()
 day_df = weather.get_day_data(
     "2020-06-21"
 )
+
+
+# ======================================
+# PV
+# ======================================
+
+pv = PVModel()
+
 pv_power = pv.calculate(
     day_df
 )
-print()
 
-print("========== PV功率 ==========")
 
-print()
+# ======================================
+# Load
+# ======================================
 
-print(pv_power.head())
-
-from models.load_model import LoadModel
 load = LoadModel()
+
 load_power = load.generate(
     day_df.index
 )
-print()
-print("========== 负载功率 ==========")
-print()
-print(load_power.head())
+
+
+# ======================================
+# Battery
+# ======================================
 
 battery = BatteryModel()
 
@@ -75,19 +61,54 @@ battery_power, soc, grid_power = (
         load_power
     )
 )
+
+
+# ======================================
+# Result
+# ======================================
+
+result = ResultModel()
+
+result.build(
+    datetime_index=day_df.index,
+    pv_power=pv_power,
+    load_power=load_power,
+    battery_power=battery_power,
+    soc=soc,
+    grid_power=grid_power
+)
+
+result.export_csv(
+    "output/result.csv"
+)
+
+result.plot_soc()
+
+result.plot_power()
+
+result.plot_energy_balance()
+
 print()
 
-print("========== Battery ==========")
+print("Simulation finished.")
+
+print("Results saved to:")
+
+print("output/result.csv")
+
+print("output/soc.png")
+
+print("output/power.png")
+
+
+# ======================================
+# Finish
+# ======================================
 
 print()
 
-print(battery_power.head())
+print("Simulation finished.")
 
-print()
-print("========== SOC ==========")
-print()
-print(soc.head(144))
-print()
-print("========== Battery ==========")
-print()
-print(battery_power.head(144))
+print("Result saved to:")
+
+print("output/result.csv")

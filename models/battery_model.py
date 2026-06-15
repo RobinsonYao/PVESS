@@ -112,45 +112,7 @@ class BatteryModel:
                 - battery_power[time]
             )
             soc[time] = current_soc
-        print("simulate() finished")
-        print()
-
-        print("SOC最后5个点")
-
-        print(
-            soc.tail()
-        )
-
-        print()
-
-        print("Battery最后5个点")
-
-        print(
-            battery_power.tail()
-        )
-
-        print()
-
-        print("Grid最后5个点")
-
-        print(
-            grid_power.tail()
-        )
-        print()
-
-        print("PV最后5个点")
-
-        print(
-            pv_power.tail()
-        )
-
-        print()
-
-        print("Load最后5个点")
-
-        print(
-            load_power.tail()
-        )
+        
         return (
             battery_power,
             soc,
