@@ -1,4 +1,5 @@
 from models.weather_model import WeatherModel
+from models.battery_model import BatteryModel
 
 
 weather_path = (
@@ -35,4 +36,52 @@ weather.plot_day_ghi(
     "2020-06-21"
 )
 weather.get_typical_day([3,4,5])
-                        
+
+from models.result_model import ResultModel
+
+
+result = ResultModel()
+
+result.show_info()
+
+from models.pv_model import PVModel
+pv = PVModel()
+day_df = weather.get_day_data(
+    "2020-06-21"
+)
+pv_power = pv.calculate(
+    day_df
+)
+print()
+
+print("========== PV功率 ==========")
+
+print()
+
+print(pv_power.head())
+
+from models.load_model import LoadModel
+load = LoadModel()
+load_power = load.generate(
+    day_df.index
+)
+print()
+print("========== 负载功率 ==========")
+print()
+print(load_power.head())
+
+battery = BatteryModel()
+
+battery_power, soc, grid_power = (
+    battery.simulate(
+        pv_power,
+        load_power
+    )
+)
+print()
+
+print("========== Battery ==========")
+
+print()
+
+print(battery_power.head())
