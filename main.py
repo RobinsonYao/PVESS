@@ -28,10 +28,7 @@ weather.calculate_month_ghi()
 weather.calculate_month_temperature()
 # 月平均风速
 weather.calculate_month_wind_speed()
-# 获取夏至数据
-weather.get_day_data(
-    "2020-06-21"
-)
+
 weather.plot_day_ghi(
     "2020-06-21"
 )
