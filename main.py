@@ -3,6 +3,7 @@ from models.pv_model import PVModel
 from models.load_model import LoadModel
 from models.battery_model import BatteryModel
 from models.result_model import ResultModel
+from models.ems_model import EMSModel
 
 
 # ======================================
@@ -50,13 +51,27 @@ load_power = load.generate(
 
 
 # ======================================
+# EMS
+# ======================================
+
+ems = EMSModel()
+
+target_battery_power = (
+    ems.dispatch(
+        pv_power,
+        load_power
+    )
+)
+
+# ======================================
 # Battery
 # ======================================
 
 battery = BatteryModel()
 
 battery_power, soc, grid_power = (
-    battery.simulate(
+    battery.execute_series(
+        target_battery_power,
         pv_power,
         load_power
     )
@@ -99,16 +114,3 @@ print("output/result.csv")
 print("output/soc.png")
 
 print("output/power.png")
-
-
-# ======================================
-# Finish
-# ======================================
-
-print()
-
-print("Simulation finished.")
-
-print("Result saved to:")
-
-print("output/result.csv")

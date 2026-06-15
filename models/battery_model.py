@@ -21,101 +21,185 @@ class BatteryModel:
         # 充放电效率
         self.charge_efficiency = 0.95
         self.discharge_efficiency = 0.95
+    
+    def execute(
+        self,
+        target_battery_power,
+        current_soc,
+        pv_power,
+        load_power):
+        """
+        执行 EMS 下发的目标功率
 
-    def simulate(
-            self,
-            pv_power,
-            load_power
-    ):
+        Parameters
+        ----------
+        target_battery_power : float
+
+            正：放电
+
+            负：充电
+
+        current_soc : float
+
+        pv_power : float
+
+        load_power : float
+
+        Returns
+        -------
+        actual_battery_power
+
+        next_soc
+
+        grid_power
+        """
+
+        actual_battery_power = target_battery_power
+
+        # 最大功率限制
+        if actual_battery_power > self.power_kw:
+            actual_battery_power = self.power_kw
+
+        if actual_battery_power < -self.power_kw:
+            actual_battery_power = -self.power_kw
+
+        # SOC下限保护
+        if (
+                actual_battery_power > 0
+                and current_soc <= self.soc_min
+        ):
+            actual_battery_power = 0
+
+        # SOC上限保护
+        if (
+                actual_battery_power < 0
+                and current_soc >= self.soc_max
+        ):
+            actual_battery_power = 0
+
+        # 能量变化
+        if actual_battery_power > 0:
+
+            energy_change = (
+                    -actual_battery_power
+                    / self.discharge_efficiency
+                    / 6
+            )
+
+        else:
+
+            energy_change = (
+                    -actual_battery_power
+                    * self.charge_efficiency
+                    / 6
+            )
+
+        soc_change = (
+                energy_change
+                / self.capacity_kwh
+                * 100
+        )
+
+        next_soc = current_soc + soc_change
+
+        next_soc = max(
+            self.soc_min,
+            min(
+                next_soc,
+                self.soc_max
+            )
+        )
+
+        grid_power = (
+                load_power
+                - pv_power
+                - actual_battery_power
+        )
+
+        return (
+            actual_battery_power,
+            next_soc,
+            grid_power
+        )
+    def execute_series(
+        self,
+        target_battery_power,
+        pv_power,
+        load_power):
+        """
+        批量执行 EMS 下发的目标功率
+
+        Parameters
+        ----------
+        target_battery_power : Series
+
+            正：放电
+
+            负：充电
+
+        pv_power : Series
+
+        load_power : Series
+
+        Returns
+        -------
+        battery_power
+
+        soc
+
+        grid_power
+        """
 
         battery_power = pd.Series(
-            index=pv_power.index,
+            index=target_battery_power.index,
             dtype=float
         )
 
         soc = pd.Series(
-            index=pv_power.index,
+            index=target_battery_power.index,
             dtype=float
         )
 
         grid_power = pd.Series(
-            index=pv_power.index,
+            index=target_battery_power.index,
             dtype=float
         )
 
         current_soc = self.soc_initial
 
-        for time in pv_power.index:
+        for time in target_battery_power.index:
 
-            power_diff = (
-                pv_power[time]
-                - load_power[time]
-            )
-            # 根据功率差计算电池充放电功率，负数表示充电，正数表示放电
-            battery_power[time] = -power_diff
-            # 最大充放电功率限制
-            if battery_power[time] > self.power_kw:
-
-                battery_power[time] = self.power_kw
-
-            if battery_power[time] < -self.power_kw:
-
-                battery_power[time] = -self.power_kw
-            
-            # SOC下限保护
-            if (
-                battery_power[time] > 0
-                and current_soc <= self.soc_min
-            ):
-                battery_power[time] = 0
-
-            
-            # SOC上限保护
-            if (
-                battery_power[time] < 0
-                and current_soc >= self.soc_max
-            ):
-                battery_power[time] = 0
-            # 根据最终电池功率计算能量变化
-            if battery_power[time] > 0:
-                # 放电时，考虑放电效率，电池内部释放的能量比输出的功率更大（battery_power[time]已经在前面考虑了正负号，在此直接带入）
-                energy_change = (
-                    -battery_power[time]
-                    / self.discharge_efficiency
-                    / 6
-                )
-            else:
-                # 充电时，考虑充电效率，电池内部吸收的能量比输入的功率小
-                energy_change = (
-                    -battery_power[time]
-                    * self.charge_efficiency
-                    / 6
-                )
-            # 计算SOC变化并更新SOC
-            soc_change = (
-                energy_change
-                / self.capacity_kwh
-                * 100
-            )
-            #更新SOC
-            current_soc += soc_change
-            current_soc = max(
-                self.soc_min,
-                min(
+            (
+                actual_battery_power,
+                next_soc,
+                grid_power_value
+            ) = (
+                self.execute(
+                    target_battery_power[time],
                     current_soc,
-                    self.soc_max
+                    pv_power[time],
+                    load_power[time]
                 )
             )
-            grid_power[time] = (
-                load_power[time]
-                - pv_power[time]
-                - battery_power[time]
+
+            battery_power[time] = (
+                actual_battery_power
             )
-            soc[time] = current_soc
-        
+
+            soc[time] = (
+                next_soc
+            )
+
+            grid_power[time] = (
+                grid_power_value
+            )
+
+            current_soc = (
+                next_soc
+            )
+
         return (
             battery_power,
             soc,
             grid_power
         )
-    

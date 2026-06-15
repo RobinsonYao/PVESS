@@ -357,3 +357,116 @@ PNG
 EMSModel V0.1
 
 开始建立决策层。
+
+# PVESS V1.1-alpha
+
+时间：
+
+2026-06
+
+---
+
+## 重要里程碑
+
+完成控制层与执行层分离。
+
+系统流程：
+
+Weather
+
+↓
+
+PV
+
+↓
+
+Load
+
+↓
+
+EMS
+
+↓
+
+Battery
+
+↓
+
+Result
+
+↓
+
+CSV
+
+↓
+
+PNG
+
+---
+
+## EMSModel V0.1
+
+新增：
+
+自发自用策略。
+
+输出：
+
+target_battery_power
+
+职责：
+
+决策层。
+
+---
+
+## BatteryModel V0.8
+
+删除：
+
+simulate()
+
+保留：
+
+* execute()
+* execute_series()
+
+职责：
+
+执行层。
+
+---
+
+## 架构状态
+
+三层结构已经建立：
+
+EMS
+
+↓
+
+Battery
+
+↓
+
+Result
+
+对应：
+
+决策层
+
+↓
+
+执行层
+
+↓
+
+观察层
+
+---
+
+下一阶段：
+
+EMSModel V0.2
+
+峰谷套利策略。

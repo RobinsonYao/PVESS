@@ -1,77 +1,36 @@
-# 下一阶段任务
-
-## 高优先级
+# 高优先级
 
 ### Task 001
 
-建立 EMSModel V0.1
+EMSModel V0.2
 
-文件：
+峰谷套利策略
 
-models/ems_model.py
-
-目标：
-
-将控制策略从 BatteryModel 中独立出来。
-
-BatteryModel：
-
-执行层
-
-EMSModel：
-
-决策层
+(Time-of-Use Arbitrage)
 
 ---
 
 ### Task 002
 
-实现自发自用策略
+EMSModel V0.3
 
-输入：
+削峰填谷策略
 
-* pv_power
-* load_power
-* soc
-
-输出：
-
-* target_battery_power
+(Peak Shaving)
 
 ---
 
 ### Task 003
 
-完成：
+支持电价模型
 
-EMS
+TOU Price Model
 
-↓
+输入：
 
-Battery
+* 时段
+* 电价
 
-↓
+输出：
 
-Result
-
-整体集成
-
----
-
-## 中优先级
-
-EconomicModel V0.1
-
-LifeModel V0.1
-
-ReportModel V0.1
-
----
-
-## 低优先级
-
-GUI
-
-Web界面
-
-优化算法
+* 当前电价

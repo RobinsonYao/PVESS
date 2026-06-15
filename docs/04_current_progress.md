@@ -88,7 +88,62 @@ BatteryModel 只负责执行。
 
 控制策略属于 EMSModel。
 
+### BatteryModel V0.8
+
+状态：
+
+Freeze
+
+功能：
+
+* execute()
+* execute_series()
+
+职责：
+
+执行层
+
+负责：
+
+* 功率限制
+* SOC限制
+* 效率
+* SOC更新
+* Grid功率计算
+
+BatteryModel 不负责控制策略。
+
+控制策略属于 EMSModel。
+
+
 ---
+
+### EMSModel V0.1
+
+状态：
+
+Stable
+
+功能：
+
+* 自发自用策略
+
+输入：
+
+* pv_power
+* load_power
+
+输出：
+
+* target_battery_power
+
+职责：
+
+决策层
+
+---
+
+
 
 ### ResultModel V0.4
 
