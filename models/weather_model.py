@@ -370,6 +370,38 @@ class WeatherModel:
             print()
 
         return day_df
+    
+    def get_period_data(
+        self,
+        start_date,
+        end_date):
+        """
+        获取指定时间段数据
+
+        Parameters
+        ----------
+        start_date : str
+
+            例如：
+            "2016-01-01"
+
+        end_date : str
+
+            例如：
+            "2020-12-31"
+
+        Returns
+        -------
+        DataFrame
+        """
+
+        period_df = self.df.loc[
+            start_date:end_date
+        ]
+
+        return period_df
+
+
     def plot_day_ghi(self, date_string):
 
         # ======================

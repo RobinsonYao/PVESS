@@ -507,3 +507,15 @@ Result
 SizingModel 被定义为未来系统的顶层模块。
 
 EMSModel、BatteryModel、EconomicModel、LifeModel 等模块，均服务于 SizingModel。
+
+V1.2-alpha
+
+重要架构变化：
+
+项目主线由：
+
+光储仿真
+
+转向：
+
+储能容量定型

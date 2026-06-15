@@ -204,24 +204,42 @@ PNG
 
 ## 当前阶段
 
-V1.1-alpha
+当前版本：
 
-基础仿真内核已经完成。
+V1.2-alpha
 
-WeatherModel      Freeze
+当前重点：
 
-PVModel           Stable
+Storage Sizing
 
-LoadModel         Stable
+已完成：
 
-EMSModel          Stable
+WeatherModel
 
-BatteryModel      Freeze
+PVModel
 
-ResultModel       Freeze
+LoadModel
+
+EMSModel
+
+BatteryModel
+
+ResultModel
+
+长期周期数据支持
+
+Double Cycle Mechanism
 
 下一阶段：
 
-V1.2 Storage Sizing
+Warm-up / Evaluation 分离
+
+MetricModel
+
+Capacity Scan
+
+Power Scan
+
+2D Scan
 
 

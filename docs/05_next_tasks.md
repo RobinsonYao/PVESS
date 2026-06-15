@@ -1,82 +1,49 @@
-# 高优先级
+Task 001
 
-### Task 001
-
-完善：
-
-15_sizing_architecture.md
+完善 Double Cycle
 
 ---
 
-### Task 002
+Task 002
 
-建立：
+split_double_cycle()
 
-models/sizing_model.py
+Warm-up
 
----
-
-### Task 003
-
-实现：
-
-固定功率
-
-扫描容量
-
-寻找收益饱和点
+Evaluation
 
 ---
 
-### Task 004
+Task 003
 
-实现：
-
-固定容量
-
-扫描功率
+MetricModel
 
 ---
 
-### Task 005
+Task 004
 
-实现二维扫描：
-
-功率 × 容量
-
-# 中优先级
-
-### Task 001
-
-EMSModel V0.2
-
-峰谷套利策略
-
-(Time-of-Use Arbitrage)
+Capacity Scan
 
 ---
 
-### Task 002
+Task 005
 
-EMSModel V0.3
-
-削峰填谷策略
-
-(Peak Shaving)
+Power Scan
 
 ---
 
-### Task 003
+Task 006
 
-支持电价模型
+2D Scan
 
-TOU Price Model
+---
 
-输入：
+Task 007
 
-* 时段
-* 电价
+EconomicModel
 
-输出：
+---
 
-* 当前电价
+Task 008
+
+LifeModel

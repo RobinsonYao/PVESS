@@ -406,3 +406,23 @@ PVESS 不仅是一个光储仿真工具。
 SizingModel 是整个系统未来最核心的模块。
 
 EMSModel、BatteryModel、EconomicModel、LifeModel 等模块，本质上都是为 SizingModel 服务的基础能力。
+
+项目最终目标：
+
+根据长期气象数据、负荷数据、光伏系统和运行策略，
+
+自动确定：
+
+- 储能功率（kW）
+- 储能容量（kWh）
+
+并进一步完成：
+
+- 经济性分析；
+- 寿命分析；
+- 自动推荐；
+- 自动报告生成。
+
+SizingModel 是整个系统未来最核心的模块。
+
+EMSModel、BatteryModel、EconomicModel、LifeModel 等模块均服务于 SizingModel。
