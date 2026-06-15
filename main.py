@@ -85,3 +85,8 @@ print("========== Battery ==========")
 print()
 
 print(battery_power.head())
+
+print()
+print("========== SOC ==========")
+print()
+print(soc.head())

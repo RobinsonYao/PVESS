@@ -23,22 +23,28 @@ class BatteryModel:
             load_power
     ):
 
-            battery_power = pd.Series(
+        battery_power = pd.Series(
             index=pv_power.index,
             dtype=float
         )
 
-            soc = pd.Series(
+        soc = pd.Series(
             index=pv_power.index,
             dtype=float
         )
 
-            grid_power = pd.Series(
+        grid_power = pd.Series(
             index=pv_power.index,
             dtype=float
         )
 
-            return (
+        current_soc = self.soc_initial
+
+        for time in pv_power.index:
+
+            soc[time] = current_soc
+
+        return (
             battery_power,
             soc,
             grid_power
