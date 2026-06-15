@@ -42,10 +42,35 @@ class BatteryModel:
 
         for time in pv_power.index:
 
-            soc[time] = current_soc
+            power_diff = (
+                pv_power[time]
+                - load_power[time]
+            )
 
+            battery_power[time] = -power_diff
+            # SOC下限保护
+            if (
+                battery_power[time] > 0
+                and current_soc <= self.soc_min
+            ):
+
+                battery_power[time] = 0
+            energy_change = (
+                -battery_power[time]
+                / 6
+            )
+
+            soc_change = (
+                energy_change
+                / self.capacity_kwh
+                * 100
+            )
+
+            current_soc += soc_change
+            soc[time] = current_soc
         return (
             battery_power,
             soc,
             grid_power
         )
+    print("simulate() finished")
