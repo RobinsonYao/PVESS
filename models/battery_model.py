@@ -48,6 +48,13 @@ class BatteryModel:
             )
 
             battery_power[time] = -power_diff
+            if battery_power[time] > self.power_kw:
+
+            battery_power[time] = self.power_kw
+
+            if battery_power[time] < -self.power_kw:
+
+            battery_power[time] = -self.power_kw
             # SOC下限保护
             if (
                 battery_power[time] > 0
