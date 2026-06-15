@@ -13,6 +13,7 @@ weather = WeatherModel()
 
 # 读取数据
 weather.load(weather_path)
+weather.build_daily_data()
 
 # 显示数据基本信息
 weather.show_info()
