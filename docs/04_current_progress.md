@@ -242,4 +242,45 @@ Power Scan
 
 2D Scan
 
+2026年06月16日11:17:27
+V1.2-alpha
 
+完成：
+
+EMS MVP
+
+完成：
+
+pytest 测试体系
+
+完成：
+
+Unit Test
+
+完成：
+
+Scenario Test
+
+完成：
+
+Long-term Test
+
+完成：
+
+EMS + Battery 联合测试
+
+完成：
+
+标准测试数据集 test_dataset.csv
+
+包含：
+
+normal
+
+stress
+
+historical
+
+三个一年期（10min）数据集。
+
+标准测试数据集基于北京2016气象数据生成。

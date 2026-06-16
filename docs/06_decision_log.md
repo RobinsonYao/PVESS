@@ -515,3 +515,67 @@ EMSModel 的结构。
 平台化方向。
 
 这些问题将在后续版本逐步演化。
+
+2026年06月16日11:18:46
+Decision
+
+建立标准测试数据集。
+
+采用：
+
+纵向长表。
+
+字段：
+
+dataset
+datetime
+temperature
+ghi
+load
+tou_period
+
+数据集：
+
+normal
+stress
+historical
+
+以北京2016气象数据为基础。
+
+模型不区分测试数据和真实数据。
+
+测试文件负责组织数据。
+
+Model只负责计算。
+
+测试结果采用：
+
+csv + png
+
+进行分析与debug。
+
+形成：
+
+Unit Test
+
+↓
+
+System Test
+
+↓
+
+Long-term Test
+
+↓
+
+CSV分析
+
+↓
+
+Debug
+
+↓
+
+Freeze
+
+开发模式。

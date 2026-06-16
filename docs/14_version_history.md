@@ -519,3 +519,32 @@ V1.2-alpha
 转向：
 
 储能容量定型
+
+2026年06月16日11:19:29
+V1.2-alpha
+
+新增：
+
+EMS MVP
+
+新增：
+
+pytest测试体系
+
+新增：
+
+EMS + Battery 联合测试
+
+新增：
+
+标准测试数据集
+
+normal
+
+stress
+
+historical
+
+建立：
+
+csv + png 分析模式。

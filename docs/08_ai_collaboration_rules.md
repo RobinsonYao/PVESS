@@ -553,3 +553,48 @@ docs 是项目的大脑。
 Git 是项目的时间机器。
 
 Project Memory 是长期开发能力的核心。
+
+2026年06月16日11:19:12
+推荐开发流程：
+
+讨论
+
+↓
+
+实现
+
+↓
+
+Unit Test
+
+↓
+
+System Test
+
+↓
+
+Long-term Test
+
+↓
+
+输出 csv
+
+↓
+
+输出 png
+
+↓
+
+分析结果
+
+↓
+
+Debug
+
+↓
+
+Freeze
+
+↓
+
+进入下一模块
