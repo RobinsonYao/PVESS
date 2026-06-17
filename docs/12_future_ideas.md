@@ -26,6 +26,24 @@
 - 回收期。
 
 ---
+# Sizing
+
+自动确定：
+
+- 储能功率；
+- 储能容量；
+
+综合考虑：
+
+- 气象；
+- 负荷；
+- 电价；
+- 收益；
+- 寿命；
+
+形成：
+
+自动配置平台。
 
 # Battery Life
 
@@ -34,6 +52,27 @@
 - SOH模型。
 
 ---
+# DoubleCycle
+
+支持：
+
+一充一放；
+
+两充两放；
+
+Equivalent Cycle；
+
+边际收益分析；
+
+循环次数限制。
+
+用于：
+
+EconomicModel
+
+和
+
+LifeModel。
 
 # Report
 
@@ -46,6 +85,38 @@ Excel；
 PDF。
 
 ---
+# Data Platform
+
+支持：
+
+多数据源。
+
+包括：
+
+- CSV；
+- Excel；
+- API；
+- 数据库；
+
+统一通过：
+
+DataModel
+
+转换为标准 DataFrame。
+
+保持：
+
+Data Layer
+
+↓
+
+Business Layer
+
+↓
+
+Result Layer
+
+三层结构。
 
 # Visualization
 
@@ -56,6 +127,15 @@ PDF。
 交互式图表。
 
 ---
+# Data Analysis
+
+支持：
+
+Typical Day；
+
+Monthly Analysis；
+
+Annual
 
 # GUI
 

@@ -93,7 +93,40 @@ Cycle。
 ---
 
 # D
+## DataModel
 
+数据层对象。
+
+负责：
+
+- csv读取；
+- datetime转换；
+- DatetimeIndex建立；
+- 列名标准化。
+
+输出：
+
+标准 DataFrame。
+
+作为：
+
+Data Layer
+
+入口。
+
+## DatetimeIndex
+
+pandas 时间索引。
+
+作为整个系统统一时间轴。
+
+当前时间间隔：
+
+10分钟。
+
+整个工程保持一致。
+
+属于核心数据结构。
 ## DHI
 
 Diffuse Horizontal Irradiance
@@ -141,6 +174,15 @@ Energy Management System
 输出：
 
 目标电池功率。
+当前支持：
+
+- PV Self-consumption；
+- Peak-Valley Arbitrage；
+- Demand Control Skeleton。
+
+采用：
+
+Multi-objective + Priority-based 架构。
 
 ---
 
@@ -187,7 +229,47 @@ kW。
 负：
 
 上网。
+## Golden Path
 
+系统主链。
+
+采用：
+
+python main.py
+
+作为：
+
+- 开发入口；
+- 集成测试入口；
+- 发布入口。
+
+当前流程：
+
+historical.csv
+
+↓
+
+DataModel
+
+↓
+
+PVModel
+
+↓
+
+EMSModel
+
+↓
+
+BatteryModel
+
+↓
+
+ResultModel
+
+↓
+
+output
 ---
 
 # L
@@ -444,7 +526,20 @@ kW。
 
 负责：
 
-读取气象数据。
+天气统计分析。
+
+包括：
+
+- 辐照度；
+- 温度；
+- 风速；
+- 典型日；
+- 月统计；
+- 年统计。
+
+csv读取逐步迁移至：
+
+DataModel。
 
 生成：
 
@@ -469,7 +564,12 @@ kW。
 - Battery Power；
 - SOC；
 - Grid Power。
+当前输出：
 
+- result.csv；
+- soc.png；
+- power.png；
+- energy_balance.png。
 ---
 
 # Power Sign Convention
@@ -577,9 +677,73 @@ Cycle。
 日历寿命：
 
 Year。
+# Standard DataFrame
 
+系统标准列名：
+
+- dataset
+- datetime
+- temperature
+- ghi
+- load
+- tou_period
+
+统一采用：
+
+snake_case。
+
+全部小写。
+
+单词之间使用：
+
+下划线。
+
+由：
+
+DataModel
+
+负责维护。
+
+整个工程禁止局部重新定义。
 ---
+# Data Layer
 
+负责：
+
+数据组织。
+
+包括：
+
+- DataModel；
+- DataFrame；
+- Series；
+- DatetimeIndex。
+
+Business Layer
+
+负责：
+
+状态和算法。
+
+Result Layer
+
+负责：
+
+结果组织和输出。
+
+形成：
+
+Data Layer
+
+↓
+
+Business Layer
+
+↓
+
+Result Layer
+
+三层结构。
 本术语表适用于整个 PVESS 工程。
 
 未来新增模块应优先遵循本文件定义。

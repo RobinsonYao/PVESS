@@ -231,6 +231,63 @@
 不追求：
 
 一次写完。
+# 7.1 Main.py First Development
+
+已经形成：
+
+Golden Path 开发模式。
+
+采用：
+
+修改一个模块
+
+↓
+
+python main.py
+
+↓
+
+分析：
+
+result.csv
+
+↓
+
+分析：
+
+png
+
+↓
+
+Debug
+
+↓
+
+git
+
+↓
+
+更新 docs
+
+↓
+
+进入下一功能
+
+优先保证：
+
+系统整体可运行。
+
+而不是：
+
+优先追求测试覆盖率。
+
+main.py
+
+同时作为：
+
+* 开发入口；
+* 集成测试入口；
+* 发布入口。
 
 ---
 
@@ -307,6 +364,43 @@ print。
 不采用：
 
 大量猜测。
+# 10.1 Integration-first Debug
+
+采用：
+
+集成优先。
+
+通过：
+
+python main.py
+
+进行系统验证。
+
+当出现错误时：
+
+优先：
+
+定位接口；
+
+观察数据流；
+
+逐层分析；
+
+逐步修复。
+
+避免：
+
+整体重写。
+
+避免：
+
+一次修改多个模块。
+
+采用：
+
+小步迭代。
+
+逐层 Debug。
 
 ---
 
@@ -363,6 +457,56 @@ ResultModel。
 随着项目推进，
 
 逐步加深对类的理解。
+# 12.1 Data-Oriented Understanding
+
+逐步形成：
+
+Data Layer
+
+↓
+
+Business Layer
+
+↓
+
+Result Layer
+
+三层结构认知。
+
+已经理解：
+
+DataModel
+
+负责：
+
+* csv读取；
+* datetime转换；
+* DatetimeIndex；
+* 列名标准化。
+
+Business Model
+
+负责：
+
+状态和算法。
+
+ResultModel
+
+负责：
+
+结果组织和输出。
+
+逐步理解：
+
+职责边界。
+
+数据流。
+
+模块解耦。
+
+避免：
+
+一个对象承担过多职责。
 
 ---
 

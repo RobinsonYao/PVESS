@@ -4,43 +4,71 @@
 
 # 1. Project Structure
 
-当前目录结构：
+当前系统主链：
 
 ```text
-PVESS/
-
-Weather
-↓
-
-PV
+historical.csv
 
 ↓
 
-Load
+DataModel
+
+↓
+
+PVModel
+
+↓
+
+EMSModel
+
+↓
+
+BatteryModel
+
+↓
+
+ResultModel
+
+↓
+
+output
+
+```
+未来演化路径
+DataModel
+
+↓
+
+PVModel
+
+↓
+
+EMSModel
+
+↓
+
+BatteryModel
+
+↓
+
+ResultModel
+
+↓
+
+DoubleCycleModel
+
+↓
+
+EconomicModel
+
+↓
+
+TariffModel
 
 ↓
 
 SizingModel
 
-├── EMSModel
-
-├── BatteryModel
-
-├── EconomicModel
-
-├── LifeModel
-
-└── ReportModel
-
-↓
-
-Recommendation
-
-↓
-
-Report
-
-```
 
 SizingModel 是顶层调度器。
 
@@ -60,53 +88,44 @@ LifeModel 是寿命模块。
 当前系统结构：
 
 ```text
-WeatherModel
-      ↓
+DataModel
+     ↓
 
 PVModel
 
-LoadModel
+EMSModel
+     ↓
 
 BatteryModel
+     ↓
 
 ResultModel
-```
-
-其中：
-
-WeatherModel 提供气象数据；
-
-PVModel 根据辐照度生成光伏功率；
-
-LoadModel 生成负载曲线；
-
-BatteryModel 完成储能状态计算；
-
-ResultModel 保存仿真结果。
-
-目前尚未加入 EMS 控制层。
-
 ---
 
 # 3. Future Architecture
 
+
 未来计划增加：
 
 ```text
-WeatherModel
-      ↓
+DataModel
+     ↓
 
 PVModel
 
-LoadModel
-
 EMSModel
-      ↓
+     ↓
 
 BatteryModel
-      ↓
+     ↓
 
-ResultModel
+DoubleCycleModel
+     ↓
+
+EconomicModel
+     ↓
+
+SizingModel
 ```
 
 其中：
@@ -127,11 +146,49 @@ BatteryModel 只负责执行。
 
 ---
 
+## Responsibility Boundary
+
+说明：
+
+main.py：
+
+负责：
+
+数据读取
+模型调用
+输出文件
+
+models：
+
+负责：
+
+算法
+状态
+
+禁止：
+
+savefig
+to_csv
+测试代码
+
 ## WeatherModel
 
 职责：
 
-读取气象数据。
+提供天气统计分析能力。
+
+包括：
+
+- 日尺度数据；
+- 月统计；
+- 年统计；
+- 典型日提取。
+
+不负责：
+
+- csv读取；
+- datetime转换；
+- 数据格式标准化。
 
 提供：
 
@@ -143,13 +200,6 @@ BatteryModel 只负责执行。
 - 年统计数据；
 - 典型日。
 
-输入：
-
-CSV气象文件。
-
-输出：
-
-DataFrame。
 
 ---
 
@@ -256,19 +306,28 @@ Grid功率。
 
 ---
 
-## EMSModel（规划中）
+## EMSModel V0.2
 
 职责：
 
 控制策略。
 
-决定：
+支持：
 
-- 电池充放电；
-- 峰平谷套利；
+- PV Self-consumption；
+- Peak-Valley Arbitrage；
+- Demand Control Skeleton；
+
+采用：
+
+Multi-objective + Priority-based 框架。
+
+后续增加：
+
 - 削峰填谷；
-- 自发自用；
-- 需量控制。
+- Backup；
+- Cycle Limit；
+- 多目标优化。
 
 输出：
 
@@ -276,16 +335,32 @@ Grid功率。
 
 ---
 
+## Data Layer
+
+DataModel
+
+职责：
+
+- csv读取
+- datetime转换
+- 建立 DatetimeIndex
+- 列名标准化
+
+输出：
+
+标准 DataFrame
+
+
 # 5. Main Data Flow
 
 当前：
 
 ```text
-Weather Data
+historical.csv
 
 ↓
 
-WeatherModel
+DataModel
 
 ↓
 
@@ -293,18 +368,19 @@ PVModel
 
 ↓
 
-PV Power
-        \
-         \
-          BatteryModel
-         /
-LoadModel
-    ↓
-Load Power
+EMSModel
+
+↓
+
+BatteryModel
 
 ↓
 
 ResultModel
+
+↓
+
+output
 ```
 
 未来：
@@ -339,11 +415,7 @@ main.py：
 调用顺序：
 
 ```text
-load()
-
-↓
-
-build_daily_data()
+DataModel.load()
 
 ↓
 
@@ -351,7 +423,7 @@ PVModel
 
 ↓
 
-LoadModel
+EMSModel
 
 ↓
 

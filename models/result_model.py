@@ -30,12 +30,25 @@ class ResultModel:
         """
 
         self.df = pd.DataFrame({
-            "datetime": datetime_index,
-            "pv_power": pv_power,
-            "load_power": load_power,
-            "battery_power": battery_power,
-            "soc": soc,
-            "grid_power": grid_power
+
+            "datetime":
+                pd.Series(datetime_index).values,
+
+            "pv_power":
+                pd.Series(pv_power).values,
+
+            "load_power":
+                pd.Series(load_power).values,
+
+            "battery_power":
+                pd.Series(battery_power).values,
+
+            "soc":
+                pd.Series(soc).values,
+
+            "grid_power":
+                pd.Series(grid_power).values
+
         })
 
     def to_dataframe(self):

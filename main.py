@@ -1,76 +1,103 @@
+from pathlib import Path
+
+from models.data_model import DataModel
 from models.weather_model import WeatherModel
 from models.pv_model import PVModel
-from models.load_model import LoadModel
+from models.ems_model import EMSModel
 from models.battery_model import BatteryModel
 from models.result_model import ResultModel
-from models.ems_model import EMSModel
 
 
-# ======================================
+# ==================================================
+# Path
+# ==================================================
+
+PROJECT_ROOT = Path(__file__).resolve().parent
+
+DATA_FILE = (
+    PROJECT_ROOT
+    / "tests"
+    / "data"
+    / "historical.csv"
+)
+
+OUTPUT_DIR = (
+    PROJECT_ROOT
+    / "output"
+)
+
+OUTPUT_DIR.mkdir(
+    exist_ok=True
+)
+
+
+# ==================================================
 # Weather
-# ======================================
+# ==================================================
 
-weather_path = (
-    "/Users/yaozhenhua/Documents/"
-    "000-My Document/2024/"
-    "241115-2016_2020 weather data/"
-    "City/an_hui_an_qing.csv"
+data_model = DataModel()
+
+
+# ==================================================
+# 获取时序数据
+# ==================================================
+
+df = data_model.load(
+    DATA_FILE
 )
 
-weather = WeatherModel()
+time_index = df.index
 
-weather.load(weather_path)
+ghi = df["ghi"]
 
-weather.build_daily_data()
+load_power = df["load"]
 
-day_df = weather.get_day_data(
-    "2020-06-21"
-)
+tou_period = df["tou_period"]
 
 
-# ======================================
+# ==================================================
 # PV
-# ======================================
+# ==================================================
 
-pv = PVModel()
+pv_model = PVModel()
 
-pv_power = pv.calculate(
-    day_df
-)
-
-
-# ======================================
-# Load
-# ======================================
-
-load = LoadModel()
-
-load_power = load.generate(
-    day_df.index
-)
-
-
-# ======================================
-# EMS
-# ======================================
-
-ems = EMSModel()
-
-target_battery_power = (
-    ems.dispatch(
-        pv_power,
-        load_power
+pv_power = (
+    pv_model.calculate(
+        ghi
     )
 )
 
-# ======================================
+
+# ==================================================
+# EMS
+# ==================================================
+
+ems_model = EMSModel(
+    battery_power_kw=100,
+    arbitrage_power=50
+)
+
+target_battery_power = (
+    ems_model.dispatch(
+        pv_power,
+        load_power,
+        tou_period
+    )
+)
+
+
+# ==================================================
 # Battery
-# ======================================
+# ==================================================
 
-battery = BatteryModel()
+battery_model = BatteryModel()
 
-battery_power, soc, grid_power = (
-    battery.execute_series(
+(
+    battery_power,
+    soc,
+    grid_power
+) = (
+    battery_model.execute_series(
         target_battery_power,
         pv_power,
         load_power
@@ -78,14 +105,14 @@ battery_power, soc, grid_power = (
 )
 
 
-# ======================================
+# ==================================================
 # Result
-# ======================================
+# ==================================================
 
-result = ResultModel()
+result_model = ResultModel()
 
-result.build(
-    datetime_index=day_df.index,
+result_model.build(
+    datetime_index=time_index,
     pv_power=pv_power,
     load_power=load_power,
     battery_power=battery_power,
@@ -93,24 +120,42 @@ result.build(
     grid_power=grid_power
 )
 
-result.export_csv(
-    "output/result.csv"
+result_model.show_info()
+
+
+# ==================================================
+# Output
+# ==================================================
+
+result_model.export_csv(
+    OUTPUT_DIR / "result.csv"
 )
 
-result.plot_soc()
+result_model.plot_soc(
+    OUTPUT_DIR / "soc.png"
+)
 
-result.plot_power()
+result_model.plot_power(
+    OUTPUT_DIR / "power.png"
+)
 
-result.plot_energy_balance()
+result_model.plot_energy_balance(
+    OUTPUT_DIR / "energy_balance.png"
+)
+
+
+# ==================================================
+# Finish
+# ==================================================
 
 print()
 
-print("Simulation finished.")
+print(
+    "Simulation finished."
+)
 
-print("Results saved to:")
+print(
+    "Result saved to output/"
+)
 
-print("output/result.csv")
-
-print("output/soc.png")
-
-print("output/power.png")
+print()

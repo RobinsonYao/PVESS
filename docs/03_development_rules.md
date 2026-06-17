@@ -48,6 +48,32 @@
 
 ---
 
+# Model Independence
+
+模型不应该知道：
+
+自己是否正在被测试。
+
+模型只接受：
+
+Series
+
+DataFrame
+
+参数
+
+并返回计算结果。
+
+模型不关心：
+
+- csv来源；
+- GUI；
+- API；
+- 测试数据；
+- SizingModel；
+
+从而保证模型可复用。
+
 # Coding Principles
 
 允许：
@@ -72,6 +98,49 @@
 
 ---
 
+# Data Layer Principle
+
+系统采用：
+
+Data Layer
+
+↓
+
+Business Layer
+
+↓
+
+Result Layer
+
+三层结构。
+
+其中：
+
+DataModel
+
+负责：
+
+- csv读取；
+- datetime转换；
+- DatetimeIndex建立；
+- 列名标准化。
+
+输出：
+
+标准 DataFrame。
+
+Business Layer
+
+负责：
+
+算法和状态计算。
+
+Result Layer
+
+负责：
+
+结果组织和输出。
+
 # Module Principles
 
 一个对象对应一个 Model。
@@ -83,6 +152,98 @@ main.py 负责调度。
 新增功能优先增加新的 Model。
 
 ---
+
+# Responsibility Boundary
+
+main.py
+
+负责：
+
+- 数据读取；
+- 模型调用；
+- 输出文件；
+- 系统测试。
+
+models/
+
+负责：
+
+- 状态管理；
+- 算法计算。
+
+禁止：
+
+- savefig()
+- to_csv()
+- print 调试信息
+- 测试代码
+- 示例代码
+
+# Main.py First Principle
+
+python main.py
+
+是系统唯一入口。
+
+同时作为：
+
+- 开发入口；
+- 集成测试入口；
+- 发布入口。
+
+采用：
+
+Golden Path 开发模式。
+
+任何功能修改后，
+
+首先验证：
+
+python main.py
+
+能够正常运行。
+
+# Development Workflow
+
+开发流程：
+
+修改一个模块
+
+↓
+
+python main.py
+
+↓
+
+检查：
+
+output/result.csv
+
+↓
+
+检查：
+
+- output/soc.png
+- output/power.png
+- output/energy_balance.png
+
+↓
+
+结果合理
+
+↓
+
+git commit
+
+↓
+
+更新 docs
+
+↓
+
+进入下一功能
+
+始终保持系统处于可运行状态。
 
 # Debug Strategy
 
@@ -111,6 +272,25 @@ print。
 进入稳定状态。
 
 ---
+# Freeze Principle
+
+模块稳定后：
+
+优先 Freeze。
+
+原则：
+
+不删除测试文件；
+
+删除模块内部调试代码；
+
+保持接口稳定；
+
+避免频繁重构。
+
+优先增加新 Model，
+
+而不是修改已经稳定的 Model。
 
 # Documentation Principles
 

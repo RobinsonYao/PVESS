@@ -81,6 +81,41 @@ PI
 
 MAX_SOC
 ```
+# 1.1 Column Naming Convention
+
+DataFrame 列名统一采用：
+
+snake_case。
+
+全部小写。
+
+单词之间使用：
+
+下划线。
+
+例如：
+
+```python
+datetime
+
+temperature
+
+ghi
+
+wind_speed
+
+load
+
+tou_period
+
+pv_power
+
+battery_power
+
+grid_power
+
+current_soc
+
 
 ---
 
@@ -382,6 +417,34 @@ dict；
 numpy数组；
 
 混杂使用。
+# 10.1 Data Layer Convention
+
+统一由：
+
+DataModel
+
+负责：
+
+- csv读取；
+- datetime转换；
+- DatetimeIndex建立；
+- 列名标准化。
+
+输出：
+
+标准 DataFrame。
+
+Business Model
+
+不直接读取 csv。
+
+避免：
+
+多个 Model 重复处理数据。
+
+避免：
+
+形成上帝对象。
 
 ---
 
@@ -550,6 +613,34 @@ battery_model.py
 避免：
 
 一个文件包含大量对象。
+# 16.1 Main.py Convention
+
+main.py
+
+作为系统唯一入口。
+
+负责：
+
+- 数据读取；
+- 模型调用；
+- 输出文件；
+- 系统测试。
+
+禁止：
+
+将核心算法放入：
+
+main.py。
+
+算法应位于：
+
+Model。
+
+main.py
+
+负责组织调用顺序。
+
+不负责具体计算。
 
 ---
 
@@ -583,19 +674,75 @@ except。
 
 当前采用：
 
-运行 + print。
+python main.py
+
+↓
+
+result.csv
+
+↓
+
+png
+
+↓
+
+分析
+
+↓
+
+Debug
+
+↓
+
+Freeze
 
 逐步验证。
 
-未来再增加：
+专项测试：
+
+保留：
+
+tests/
+
+未来逐步增加：
 
 pytest。
 
 单元测试。
+# 18.1 Freeze Convention
 
-目前：
+模块稳定后：
 
-简单优先。
+优先 Freeze。
+
+原则：
+
+删除：
+
+- print
+- 临时变量
+- 调试代码
+
+保留：
+
+- tests/
+- docs/
+
+保持：
+
+接口稳定。
+
+避免：
+
+频繁重构。
+
+优先：
+
+增加新的 Model。
+
+而不是：
+
+修改稳定模块。
 
 ---
 
@@ -633,6 +780,30 @@ logs/
 
 修改已有稳定模块。
 
+# 20.1 Output Convention
+
+统一输出目录：
+
+output/
+
+当前输出：
+
+- result.csv
+- soc.png
+- power.png
+- energy_balance.png
+
+输出动作优先由：
+
+main.py
+
+完成。
+
+避免：
+
+多个模块分别保存文件。
+
+保持输出结构统一。
 ---
 
 # 21. Final Principle

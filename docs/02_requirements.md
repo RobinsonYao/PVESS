@@ -39,19 +39,35 @@
 
 CSV 文件。
 
-包含：
+统一由：
 
-- GHI；
-- DNI；
-- DHI；
-- 温度；
-- 风速；
-- 湿度；
-- 压力；
+DataModel
+
+负责读取。
+
+标准列名采用：
+
+- datetime
+- temperature
+- ghi
+- load
+- tou_period
+
+未来支持：
+
+- wind_speed
+- dni
+- dhi
+- humidity
+- pressure
 
 时间分辨率：
 
 10分钟。
+
+统一时间轴：
+
+DatetimeIndex。
 
 ---
 
@@ -88,6 +104,15 @@ CSV 文件。
 输出：
 
 时间序列结果。
+
+当前输出文件：
+
+output/
+
+- result.csv
+- soc.png
+- power.png
+- energy_balance.png
 
 包括：
 
@@ -183,9 +208,36 @@ Grid：
 - 效率；
 - SOC更新。
 
+### EMS
+
+支持：
+
+- PV Self-consumption；
+- Peak-Valley Arbitrage；
+- Demand Control Skeleton。
+
+采用：
+
+Multi-objective + Priority-based 框架。
+
 ### Result
 
-框架已经建立。
+支持：
+
+统一保存：
+
+- PV Power；
+- Load Power；
+- Battery Power；
+- Grid Power；
+- SOC；
+
+并输出：
+
+- result.csv；
+- soc.png；
+- power.png；
+- energy_balance.png。
 
 ---
 
@@ -195,10 +247,12 @@ Grid：
 
 ### EMS
 
-- 自发自用；
-- 峰平谷套利；
+继续增加：
+
 - 削峰填谷；
-- 需量控制。
+- Backup；
+- Cycle Limit；
+- 多目标优化。
 
 ### Economic
 
@@ -272,8 +326,40 @@ pandas。
 - 分布式计算。
 
 ---
+ 
+# 11. Current Main Workflow
 
-# 11. Development Principle
+historical.csv
+
+↓
+
+DataModel
+
+↓
+
+PVModel
+
+↓
+
+EMSModel
+
+↓
+
+BatteryModel
+
+↓
+
+ResultModel
+
+↓
+
+output
+
+python main.py
+
+作为系统唯一入口。
+
+# 12. Development Principle
 
 优先：
 
@@ -292,3 +378,18 @@ pandas。
 避免：
 
 过度抽象。
+采用：
+
+Golden Path 开发模式。
+
+优先保证：
+
+python main.py
+
+能够持续运行。
+
+系统可运行性
+
+优先于
+
+测试覆盖率。

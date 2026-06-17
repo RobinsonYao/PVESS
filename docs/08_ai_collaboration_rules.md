@@ -147,6 +147,39 @@ Freeze
 避免：
 
 大规模修改。
+# 4.1 Main.py First Principle
+
+采用：
+
+Golden Path 开发模式。
+
+python main.py
+
+作为：
+
+* 开发入口；
+* 集成测试入口；
+* 发布入口。
+
+优先保证：
+
+系统整体可运行。
+
+而不是：
+
+优先追求测试覆盖率。
+
+任何功能修改后，
+
+首先验证：
+
+python main.py
+
+能够正常运行。
+
+随后再进行：
+
+专项测试。
 
 ---
 
@@ -291,6 +324,43 @@ Freeze
 不要：
 
 自动引入复杂框架。
+# 9.1 Respect Existing Models
+
+默认：
+
+已有 Model 是正确的。
+
+优先：
+
+调整 main.py。
+
+而不是：
+
+重构已有 Model。
+
+重构前：
+
+先说明：
+
+收益；
+
+影响范围；
+
+是否值得。
+
+禁止：
+
+为了理想架构，
+
+自动重写稳定模块。
+
+优先：
+
+真实架构。
+
+而不是：
+
+理想架构。
 
 ---
 
@@ -369,6 +439,61 @@ AI 的职责：
 采用：
 
 一步一步验证。
+# 12.1 Integration-first Strategy
+
+优先：
+
+系统集成验证。
+
+采用：
+
+修改一个模块
+
+↓
+
+python main.py
+
+↓
+
+分析：
+
+output/result.csv
+
+↓
+
+分析：
+
+output/*.png
+
+↓
+
+定位问题
+
+↓
+
+Debug
+
+↓
+
+Freeze
+
+↓
+
+进入下一功能
+
+避免：
+
+同时修改多个模块。
+
+避免：
+
+整体重写。
+
+采用：
+
+逐层 Debug。
+
+逐步修复。
 
 ---
 
@@ -467,6 +592,50 @@ ResultModel。
 避免：
 
 单文件脚本。
+# 15.1 Data Layer Principle
+
+项目逐步形成：
+
+Data Layer
+
+↓
+
+Business Layer
+
+↓
+
+Result Layer
+
+三层结构。
+
+DataModel
+
+负责：
+
+* csv读取；
+* datetime转换；
+* DatetimeIndex；
+* 列名标准化。
+
+Business Layer
+
+负责：
+
+状态和算法。
+
+Result Layer
+
+负责：
+
+结果组织和输出。
+
+避免：
+
+单个对象承担过多职责。
+
+避免：
+
+形成上帝对象。
 
 ---
 
@@ -565,23 +734,19 @@ Project Memory 是长期开发能力的核心。
 
 ↓
 
-Unit Test
+python main.py
 
 ↓
 
-System Test
+输出：
+
+result.csv
 
 ↓
 
-Long-term Test
+输出：
 
-↓
-
-输出 csv
-
-↓
-
-输出 png
+png
 
 ↓
 
@@ -593,8 +758,44 @@ Debug
 
 ↓
 
+git
+
+↓
+
+更新 docs
+
+↓
+
 Freeze
 
 ↓
 
 进入下一模块
+
+始终保持：
+
+系统可运行。
+
+2026年06月18日
+
+形成：
+
+DataModel
+
+↓
+
+Business Layer
+
+↓
+
+Result Layer
+
+三层结构。
+
+形成：
+
+main.py Golden Path
+
+开发模式。
+
+系统进入稳定演化阶段。

@@ -122,10 +122,10 @@ class BatteryModel:
             grid_power
         )
     def execute_series(
-        self,
-        target_battery_power,
-        pv_power,
-        load_power):
+            self,
+            target_battery_power,
+            pv_power,
+            load_power):
         """
         批量执行 EMS 下发的目标功率
 
@@ -167,7 +167,10 @@ class BatteryModel:
 
         current_soc = self.soc_initial
 
-        for time in target_battery_power.index:
+        # ==================================
+        # 逐时间步执行
+        # ==================================
+        for i in range(len(target_battery_power)):
 
             (
                 actual_battery_power,
@@ -175,22 +178,22 @@ class BatteryModel:
                 grid_power_value
             ) = (
                 self.execute(
-                    target_battery_power[time],
+                    target_battery_power.iloc[i],
                     current_soc,
-                    pv_power[time],
-                    load_power[time]
+                    pv_power.iloc[i],
+                    load_power.iloc[i]
                 )
             )
 
-            battery_power[time] = (
+            battery_power.iloc[i] = (
                 actual_battery_power
             )
 
-            soc[time] = (
+            soc.iloc[i] = (
                 next_soc
             )
 
-            grid_power[time] = (
+            grid_power.iloc[i] = (
                 grid_power_value
             )
 

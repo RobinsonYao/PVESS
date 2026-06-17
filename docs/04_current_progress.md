@@ -2,13 +2,13 @@
 
 ## 当前版本
 
-V1.1-alpha
+V1.2-alpha
 
 ---
 
 ## 已完成模块
 
-### WeatherModel V0.3
+### WeatherModel
 
 状态：
 
@@ -16,19 +16,53 @@ Freeze
 
 功能：
 
-* 气象数据读取
 * 日数据提取
-* 典型日分析
 * 月统计
-* 绘图功能
+* 年统计
+* 典型日提取
+
+WeatherModel 不再承担系统数据入口。
+
+csv读取逐步迁移至：
+
+DataModel。
 
 ---
-
-### PVModel V0.1
+### DataModel V0.2
 
 状态：
 
-稳定
+Stable
+
+职责：
+
+数据层
+
+负责：
+
+* csv读取
+* datetime转换
+* DatetimeIndex建立
+* 列名标准化
+
+输出：
+
+标准 DataFrame
+
+当前标准列：
+
+* dataset
+* datetime
+* temperature
+* ghi
+* load
+* tou_period
+
+### PVModel
+
+状态：
+
+Freeze
 
 功能：
 
@@ -36,68 +70,23 @@ Freeze
 
 ---
 
-### LoadModel V0.1
+### LoadModel
 
 状态：
 
-稳定
+Freeze
 
 功能：
 
-* 负载曲线生成
+* 负荷曲线生成
 
 ---
 
-### BatteryModel V0.6
+### BatteryModel
 
 状态：
 
 Freeze
-
-功能：
-
-* 功率限制
-* SOC限制
-* 充放电效率
-* SOC更新
-* Grid功率计算
-
-正负号定义：
-
-Battery Power
-
-正：
-
-放电
-
-负：
-
-充电
-
-Grid Power
-
-正：
-
-购电
-
-负：
-
-上网
-
-BatteryModel 只负责执行。
-
-控制策略属于 EMSModel。
-
-### BatteryModel V0.8
-
-状态：
-
-Freeze
-
-功能：
-
-* execute()
-* execute_series()
 
 职责：
 
@@ -107,26 +96,53 @@ Freeze
 
 * 功率限制
 * SOC限制
-* 效率
+* 充放电效率
 * SOC更新
 * Grid功率计算
 
+Battery Power：
+
+正：
+
+放电
+
+负：
+
+充电
+
+Grid Power：
+
+正：
+
+购电
+
+负：
+
+上网
+
 BatteryModel 不负责控制策略。
-
-控制策略属于 EMSModel。
-
 
 ---
 
-### EMSModel V0.1
+### EMSModel V0.2
 
 状态：
 
 Stable
 
+职责：
+
+决策层
+
 功能：
 
-* 自发自用策略
+* PV Self-consumption
+* Peak-Valley Arbitrage
+* Demand Control Skeleton
+
+采用：
+
+Multi-objective + Priority-based 框架。
 
 输入：
 
@@ -137,150 +153,191 @@ Stable
 
 * target_battery_power
 
-职责：
-
-决策层
-
 ---
 
-
-
-### ResultModel V0.4
+### ResultModel
 
 状态：
 
 Freeze
 
+职责：
+
+观察层
+
 功能：
 
 * build()
-* to_dataframe()
-* head()
-* tail()
-* show_info()
 * export_csv()
 * plot_soc()
 * plot_power()
 * plot_energy_balance()
 
-输出文件：
+输出：
 
-* result.csv
-* soc.png
-* power.png
-* energy_balance.png
+* csv
+* png
+
+---
+
+## 已完成测试体系
+
+完成：
+
+* Unit Test
+* Scenario Test
+* Long-term Test
+* EMS + Battery 联合测试
+
+建立标准测试数据集：
+
+* historical
+* stress
+
+采用标准数据接口：
+
+* dataset
+* datetime
+* temperature
+* ghi
+* load
+* tou_period
+
+时间轴：
+
+DatetimeIndex
+
+测试结果采用：
+
+csv + png
+
+进行分析。
 
 ---
 
 ## 当前系统流程
 
-Weather
+historical.csv
 
 ↓
 
-PV
+DataModel
 
 ↓
-
-Load
-
-↓
-
-Battery
-
-↓
-
-Result
-
-↓
-
-CSV
-
-↓
-
-PNG
-
----
-
-## 当前阶段
-
-当前版本：
-
-V1.2-alpha
-
-当前重点：
-
-Storage Sizing
-
-已完成：
-
-WeatherModel
 
 PVModel
 
-LoadModel
+↓
 
 EMSModel
 
+↓
+
 BatteryModel
+
+↓
 
 ResultModel
 
-长期周期数据支持
+↓
 
-Double Cycle Mechanism
+result.csv
 
-下一阶段：
+↓
 
-Warm-up / Evaluation 分离
+png
 
-MetricModel
+---
+## 当前入口
 
-Capacity Scan
+python main.py
 
-Power Scan
+状态：
 
-2D Scan
+Stable
 
-2026年06月16日11:17:27
-V1.2-alpha
+作为：
 
-完成：
+* 开发入口
+* 集成测试入口
+* 发布入口
 
-EMS MVP
+采用：
 
-完成：
+Golden Path 开发模式。
 
-pytest 测试体系
+## 当前主线
 
-完成：
+EMSModel V0.2
 
-Unit Test
+↓
 
-完成：
+DoubleCycleModel
 
-Scenario Test
+↓
 
-完成：
+EconomicModel MVP
 
-Long-term Test
+↓
 
-完成：
+TOUModel
 
-EMS + Battery 联合测试
+↓
 
-完成：
+TariffModel
 
-标准测试数据集 test_dataset.csv
+↓
 
-包含：
+SizingModel
 
-normal
+---
 
-stress
+## 当前开发原则
 
-historical
+修改一个模块
 
-三个一年期（10min）数据集。
+↓
 
-标准测试数据集基于北京2016气象数据生成。
+python main.py
+
+↓
+
+检查：
+
+result.csv
+
+↓
+
+检查：
+
+soc.png
+
+power.png
+
+energy_balance.png
+
+↓
+
+分析结果
+
+↓
+
+Debug
+
+↓
+
+git
+
+↓
+
+更新 docs
+
+↓
+
+进入下一功能
+
+始终保持：
+
+python main.py
+
+能够正常运行。
