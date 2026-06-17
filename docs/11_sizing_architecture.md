@@ -627,3 +627,186 @@ SizingModel 是整个系统未来最核心的模块。
 项目最终目标：
 
 实现储能系统自动定型。
+
+# 17. Future Ideas
+
+记录未来可能扩展的方向。
+
+仅记录。
+
+不提前实现。
+
+保持：
+
+渐进式演化。
+
+EMS
+
+进一步支持：
+
+自发自用；
+峰谷套利；
+削峰填谷；
+需量控制；
+Backup；
+多目标优化。
+Economic
+
+支持：
+
+电费模型；
+收益模型；
+IRR；
+NPV；
+回收期。
+Battery Life
+
+支持：
+
+循环寿命；
+日历寿命；
+SOH模型；
+更换周期。
+DoubleCycle
+
+支持：
+
+一充一放；
+两充两放；
+Equivalent Cycle；
+边际收益分析；
+循环次数限制。
+
+服务于：
+
+EconomicModel
+
+和
+
+LifeModel。
+
+Report
+
+自动生成：
+
+Word；
+Excel；
+PDF。
+
+形成：
+
+ReportModel。
+
+Data Platform
+
+支持：
+
+多数据源。
+
+包括：
+
+CSV；
+Excel；
+API；
+数据库。
+
+统一通过：
+
+DataModel
+
+转换为标准 DataFrame。
+
+保持：
+
+Data Layer
+
+↓
+
+Business Layer
+
+↓
+
+Result Layer
+
+三层结构。
+
+Data Analysis
+
+支持：
+
+Typical Day；
+Monthly Analysis；
+Annual Analysis。
+
+形成：
+
+Weather Analysis Layer。
+
+Visualization
+
+建立统一绘图模块。
+
+支持：
+
+交互式图表；
+多项目比较；
+Dashboard。
+GUI
+
+形成桌面软件。
+
+Web Platform
+
+形成浏览器平台。
+
+Multi-project
+
+支持：
+
+多个项目统一管理。
+
+Cloud Platform
+
+支持：
+
+云端计算。
+
+Digital Twin
+
+形成数字孪生系统。
+
+AI
+
+支持：
+
+参数优化；
+策略优化；
+智能推荐；
+自动生成报告。
+
+形成：
+
+AI Assisted Sizing。
+
+Business Direction
+
+长期可能形成：
+
+工商业储能方案设计平台；
+收益分析平台；
+光伏清洗效果评估平台；
+运维平台；
+项目管理平台。
+Principle
+
+记录灵感。
+
+不提前实现。
+
+保持系统简单。
+
+按实际需求逐步演化。
+
+避免：
+
+为了未来需求而提前设计。

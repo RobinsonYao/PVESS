@@ -1,17 +1,51 @@
-.venv/
+# Python
 __pycache__/
-*.pyc
-*.pyo
-*.pyd
+*.py[cod]
+*$py.class
 
-output/
-logs/
+# Virtual environment
+.venv/
+venv/
 
+# macOS
 .DS_Store
 
-.idea/
+# IDE
 .vscode/
+.idea/
 
-*.xlsx
-*.pdf
+# Jupyter
+.ipynb_checkpoints/
 
+# Logs
+logs/
+
+# Output files
+output/*
+!output/.gitkeep
+
+# Python cache
+**/__pycache__/
+
+# Temporary files
+*.tmp
+*.bak
+
+# Test artifacts
+.pytest_cache/
+
+# Generated figures
+*.png
+
+# Generated csv results
+output/*.csv
+
+# Local database
+*.db
+
+# Archives created during release
+*.zip
+
+# Exception:
+!archives/*.zip
+!snapshots/**/*.zip
